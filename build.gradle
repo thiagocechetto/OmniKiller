@@ -26,3 +26,9 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext.versions = [
+    room_version : '1.1.1-rc1',
+    paging_version : '1.0.0',
+    nav_version : '1.0.0-alpha01'
+]
