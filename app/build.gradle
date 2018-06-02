@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: "androidx.navigation.safeargs"
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -31,4 +33,19 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    // Room
+    implementation "android.arch.persistence.room:runtime:${versions.room_version}"
+    annotationProcessor "android.arch.persistence.room:compiler:${versions.room_version}"
+    testImplementation "android.arch.persistence.room:testing:${versions.room_version}"
+
+    // Paging
+    implementation "android.arch.paging:runtime:${versions.paging_version}"
+    testImplementation "android.arch.paging:common:${versions.paging_version}"
+
+    // Navigation
+    implementation "android.arch.navigation:navigation-fragment-ktx:${versions.nav_version}"
+    implementation "android.arch.navigation:navigation-ui-ktx:${versions.nav_version}"
+    androidTestImplementation "android.arch.navigation:navigation-testing-ktx:${versions.nav_version}"
+
 }
