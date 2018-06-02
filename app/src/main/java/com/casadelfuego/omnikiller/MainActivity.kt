@@ -3,6 +3,8 @@ package com.casadelfuego.omnikiller
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.casadelfuego.omnikiller.ui.main.MainFragment
+import android.content.Intent
+import com.casadelfuego.omnikiller.ocr.OcrActivity
 
 class MainActivity: AppCompatActivity() {
 
@@ -14,6 +16,8 @@ class MainActivity: AppCompatActivity() {
           .replace(R.id.container, MainFragment.newInstance())
           .commitNow()
     }
+
+    startActivity(Intent(this, OcrActivity::class.java))
   }
 
 }
