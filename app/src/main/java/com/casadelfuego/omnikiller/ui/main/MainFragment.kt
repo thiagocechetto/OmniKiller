@@ -24,7 +24,8 @@ class MainFragment: Fragment() {
     viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
     // TODO: Use the ViewModel
 
-    addCardButton.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_mainFragment_to_addCardFragment, null))
+    addCardButton.setOnClickListener(Navigation.createNavigateOnClickListener(
+        R.id.action_mainFragment_to_addCardFragment, null))
   }
 
 }

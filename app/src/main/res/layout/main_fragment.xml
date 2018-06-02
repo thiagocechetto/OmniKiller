@@ -28,8 +28,8 @@
     android:id="@+id/addCardButton"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
-    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="@dimen/default_margin"
+    android:layout_marginEnd="@dimen/default_margin"
     android:src="@color/colorAccent"
     app:layout_anchor="@id/main"
     app:layout_anchorGravity="bottom|end"/>
