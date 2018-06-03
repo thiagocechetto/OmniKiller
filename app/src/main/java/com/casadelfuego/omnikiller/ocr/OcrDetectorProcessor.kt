@@ -1,7 +1,6 @@
 package com.casadelfuego.omnikiller.ocr
 
 import com.casadelfuego.omnikiller.ui.camera.GraphicOverlay
-import com.casadelfuego.omnikiller.validation.CreditCardValidation
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.text.TextBlock
 

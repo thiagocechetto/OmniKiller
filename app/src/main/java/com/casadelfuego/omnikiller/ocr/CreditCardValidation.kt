@@ -1,4 +1,4 @@
-package com.casadelfuego.omnikiller.validation
+package com.casadelfuego.omnikiller.ocr
 
 import java.util.Scanner
 
