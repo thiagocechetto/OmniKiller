@@ -53,4 +53,6 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui-ktx:${versions.nav_version}"
     androidTestImplementation "android.arch.navigation:navigation-testing-ktx:${versions.nav_version}"
 
+    // Volley
+  implementation 'com.squareup.okhttp3:okhttp:3.8.1'
 }

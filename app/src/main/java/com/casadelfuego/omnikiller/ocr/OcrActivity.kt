@@ -1,17 +1,23 @@
 package com.casadelfuego.omnikiller.ocr
 
-import android.content.Intent
-import android.os.Bundle
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.os.AsyncTask
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.CompoundButton
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.casadelfuego.omnikiller.R
-
 import com.google.android.gms.common.api.CommonStatusCodes
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.json.JSONObject
+
 
 /**
  * Main activity demonstrating how to pass extra parameters to an activity that
@@ -33,6 +39,7 @@ class OcrActivity: Activity(), View.OnClickListener {
   private var useFlash: CompoundButton? = null
   private var statusMessage: TextView? = null
   private var textValue: TextView? = null
+  private var progressBar: ProgressBar? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -40,6 +47,7 @@ class OcrActivity: Activity(), View.OnClickListener {
 
     statusMessage = findViewById(R.id.status_message)
     textValue = findViewById(R.id.text_value)
+    progressBar = findViewById(R.id.progress_bar)
 
     autoFocus = findViewById(R.id.auto_focus)
     useFlash = findViewById(R.id.use_flash)
@@ -96,7 +104,7 @@ class OcrActivity: Activity(), View.OnClickListener {
         if (data != null) {
           val text = data.getStringExtra(OcrCaptureActivity.TextBlockObject)
           statusMessage!!.setText(R.string.ocr_success)
-          textValue!!.text = text
+          setBalance(text)
           Log.d(TAG, "Text read: $text")
         } else {
           statusMessage!!.setText(R.string.ocr_failure)
@@ -110,6 +118,53 @@ class OcrActivity: Activity(), View.OnClickListener {
       super.onActivityResult(requestCode, resultCode, data)
     }
   }
+
+  fun setBalance(cardNumber: String) {
+    var asyncTask: AsyncTask<String, Void, String> = object: AsyncTask<String, Void, String>() {
+      override fun onPreExecute() {
+        super.onPreExecute()
+        progressBar?.visibility = View.VISIBLE
+        textValue?.text = ""
+
+      }
+
+      override fun doInBackground(vararg params: String): String? {
+        try {
+          val requestBody = MultipartBody.Builder()
+              .setType(MultipartBody.FORM)
+              .addFormDataPart("data[token]", "a22cba9cffca73ca576a924fbafd1137")
+              .addFormDataPart("data[card_number]", params[0])
+              .build()
+
+          val request = Request.Builder()
+              .url("https://api.omnicard.com/2.x//cards/getBalance.json")
+              .post(requestBody)
+              .build()
+
+          val response = client.newCall(request).execute()
+          return if (!response.isSuccessful) {
+            null
+          } else {
+            params[0] + " (" + JSONObject(JSONObject(JSONObject(response.body()!!.string()).getString("response")).getString("message")).getString("balance") + ")"
+          }
+        } catch (e: Exception) {
+          e.printStackTrace()
+          return null
+        }
+
+      }
+
+      override fun onPostExecute(s: String?) {
+        super.onPostExecute(s)
+        progressBar?.visibility = View.GONE
+          textValue!!.text = s ?: "Try again! Deu zica!"
+      }
+    }
+
+    asyncTask.execute(cardNumber)
+  }
+
+  val client = OkHttpClient()
 
 }
 
