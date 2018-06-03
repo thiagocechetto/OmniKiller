@@ -34,7 +34,7 @@ import java.io.IOException
  * rear facing camera. During detection overlay graphics are drawn to indicate the position,
  * size, and contents of each TextBlock.
  */
-class OcrCaptureActivity: AppCompatActivity() {
+class OcrCaptureActivity: AppCompatActivity(), OcrDetectorProcessor.ValueChangedListener {
 
   private var mCameraSource: CameraSource? = null
   private var mPreview: CameraSourcePreview? = null
@@ -128,7 +128,7 @@ class OcrCaptureActivity: AppCompatActivity() {
     // is set to receive the text recognition results and display graphics for each text block
     // on screen.
     val textRecognizer = TextRecognizer.Builder(context).build()
-    textRecognizer.setProcessor(OcrDetectorProcessor(mGraphicOverlay!!))
+    textRecognizer.setProcessor(OcrDetectorProcessor(mGraphicOverlay!!, this))
 
     if (!textRecognizer.isOperational) {
       // Note: The first time that an app using a Vision API is installed on a
@@ -235,7 +235,7 @@ class OcrCaptureActivity: AppCompatActivity() {
     val listener = DialogInterface.OnClickListener { _, _ -> finish() }
 
     val builder = AlertDialog.Builder(this)
-    builder.setTitle("Multitracker sample")
+    builder.setTitle("OCR")
         .setMessage(R.string.no_camera_permission)
         .setPositiveButton(R.string.ok, listener)
         .show()
@@ -293,6 +293,13 @@ class OcrCaptureActivity: AppCompatActivity() {
       Log.d(TAG, "no text detected")
     }
     return text != null
+  }
+
+  override fun onValueChanged(text: String) {
+    val data = Intent()
+    data.putExtra(TextBlockObject, text)
+    setResult(CommonStatusCodes.SUCCESS, data)
+    finish()
   }
 
   private inner class CaptureGestureListener: GestureDetector.SimpleOnGestureListener() {

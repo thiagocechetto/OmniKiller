@@ -9,7 +9,11 @@ import com.google.android.gms.vision.text.TextBlock
  * A very simple Processor which receives detected TextBlocks and adds them to the overlay
  * as OcrGraphics.
  */
-class OcrDetectorProcessor internal constructor(private val mGraphicOverlay: GraphicOverlay<OcrGraphic>): Detector.Processor<TextBlock> {
+class OcrDetectorProcessor internal constructor(private val mGraphicOverlay: GraphicOverlay<OcrGraphic>, val valueChangedListener: ValueChangedListener): Detector.Processor<TextBlock> {
+
+  interface ValueChangedListener {
+    fun onValueChanged(newValue: String )
+  }
 
   /**
    * Called by the detector to deliver detection results.
@@ -28,12 +32,14 @@ class OcrDetectorProcessor internal constructor(private val mGraphicOverlay: Gra
       try {
         val number = java.lang.Long.parseLong(text)
         if (CreditCardValidation.isValid(number)) {
-          val graphic = OcrGraphic(mGraphicOverlay, item)
-          mGraphicOverlay.add(graphic)
+          valueChangedListener.onValueChanged(text)
         }
       } catch (e: NumberFormatException) {
         // do nothing
       }
+
+      val graphic = OcrGraphic(mGraphicOverlay, item)
+      mGraphicOverlay.add(graphic)
     }
   }
 
