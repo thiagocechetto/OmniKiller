@@ -7,12 +7,15 @@ fun String.toBoolean() = !isFalse()
 
 fun String.isFalse() = isBlank() || this == "0" || "false".equals(this, true)
 
-fun String.toDate(): Date? {
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    return dateFormat.parse(this)
-}
+fun String.toDate() = safeParseDate(this, "yyyy-MM-dd")
 
-fun String.toDateTime(): Date? {
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-    return dateFormat.parse(this)
+fun String.toDateTime() = safeParseDate(this, "yyyy-MM-dd HH:mm:ss")
+
+private fun safeParseDate(dateString: String, dateFormat: String): Date? {
+    val dateFormatter = SimpleDateFormat(dateFormat, Locale.getDefault())
+    return try {
+        dateFormatter.parse(dateString)
+    } catch (ex: Exception) {
+        null
+    }
 }

@@ -60,6 +60,14 @@ class StringExtensionsKtTest {
         assertEquals(31, calendar.get(Calendar.DAY_OF_MONTH))
     }
 
+
+    @Test
+    fun invalidToDate() {
+        val date = "2019 05 31".toDate()
+
+        assertNull(date)
+    }
+
     @Test
     fun toDateTime() {
         val date = "2018-05-24 20:34:48".toDateTime()
@@ -73,5 +81,13 @@ class StringExtensionsKtTest {
         assertEquals(20, calendar.get(Calendar.HOUR_OF_DAY))
         assertEquals(34, calendar.get(Calendar.MINUTE))
         assertEquals(48, calendar.get(Calendar.SECOND))
+    }
+
+
+    @Test
+    fun invalidToDateTime() {
+        val date = "2019 05 31 20-34".toDate()
+
+        assertNull(date)
     }
 }
