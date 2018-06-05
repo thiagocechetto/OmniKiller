@@ -6,13 +6,11 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import com.casadelfuego.omnikiller.R
+import kotlinx.android.synthetic.main.main_fragment.addCardButton
 
 class MainFragment: Fragment() {
-
-  companion object {
-    fun newInstance() = MainFragment()
-  }
 
   private lateinit var viewModel: MainViewModel
 
@@ -25,6 +23,9 @@ class MainFragment: Fragment() {
     super.onActivityCreated(savedInstanceState)
     viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
     // TODO: Use the ViewModel
+
+    addCardButton.setOnClickListener(Navigation.createNavigateOnClickListener(
+        R.id.action_mainFragment_to_addCardFragment, null))
   }
 
 }
