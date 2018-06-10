@@ -1,5 +1,6 @@
 package com.casadelfuego.omnikiller.ocr
 
+import com.casadelfuego.omnikiller.validator.CreditCardValidator
 import org.junit.Assert
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

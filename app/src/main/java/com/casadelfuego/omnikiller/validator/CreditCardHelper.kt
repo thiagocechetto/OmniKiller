@@ -1,4 +1,4 @@
-package com.casadelfuego.omnikiller.ocr
+package com.casadelfuego.omnikiller.validator
 
 import android.support.annotation.VisibleForTesting
 

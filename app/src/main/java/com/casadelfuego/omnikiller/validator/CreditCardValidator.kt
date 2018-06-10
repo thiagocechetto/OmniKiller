@@ -1,4 +1,4 @@
-package com.casadelfuego.omnikiller.ocr
+package com.casadelfuego.omnikiller.validator
 
 class CreditCardValidator {
 
